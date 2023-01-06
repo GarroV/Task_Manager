@@ -2,22 +2,21 @@ package models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Task implements Serializable {
 
-    String title;
-    String description;
-    Boolean isActive;
-    LocalDate creationDate;
-    LocalDate startDate;
-    LocalDate endDate;
-    transient DateTimeFormatter formatter;
+    private String title;
+    private String description;
+    private boolean isActive;
+    private boolean isFinished;
+    private LocalDate creationDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public Task(String title) {
         this.title = title;
         isActive = true;
-        this.formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        isFinished = false;
 
         creationDate = LocalDate.now();
         System.out.println("Задача создана");
@@ -26,22 +25,34 @@ public class Task implements Serializable {
 
     public void checkTask() {
 
+        System.out.println("===============");
         System.out.println("Заголовок: " + title);
         System.out.println("Описание: " +description);
         System.out.println("Дата создания: " + creationDate);
         System.out.println("Дата начала :" + startDate);
         System.out.println("Дата конца: " + endDate);
+        System.out.println("===============");
     }
+
+    public void setTitle (String title) {this.title = title;}
 
     public void setDescription(String description) {
         this.description = description;
     }
-    public void setStartDate (String date) {
-        startDate = LocalDate.parse(date, formatter);
+
+    public void setStartDate (LocalDate date) {startDate = date;}
+
+    public void setEndDate (LocalDate date) {
+        endDate = date;
     }
-    public void setEndDate (String date) {
-        endDate = LocalDate.parse(date, formatter);
-    }
+
+    public void setStatus (boolean isActive) { this.isActive = isActive;}
+
+    public void finishTask (boolean isFinished ) { this.isFinished = isFinished;}
+
+    public boolean isTaskFinished () {return isFinished;}
+
+    public boolean getStatus() {return isActive;}
 
     public LocalDate getStartDate() {
         return startDate;
@@ -53,11 +64,4 @@ public class Task implements Serializable {
 
     public String getTitle() {return title;}
 
-    public String getStringEndDate() {
-        String date = endDate.format(formatter);
-        return date; }
-
-    public String getStringStartDate() {
-        String date = startDate.format(formatter);
-        return date; }
 }
