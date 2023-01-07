@@ -80,7 +80,7 @@ public class taskManager implements Serializable {
             System.out.println("4.Ближайшая");
             System.out.println("5.Просроченые задачи");
             System.out.println("6.Завершенные задачи");
-            System.out.println("7.Вернуться в главное меню");
+            System.out.println("0.Вернуться в главное меню");
 
             Scanner scanner2 = new Scanner(System.in);
             int showTask = scanner.nextInt();
@@ -282,9 +282,14 @@ public class taskManager implements Serializable {
                         break;
                     case 5:
                         System.out.println(" Вы уверены? y/n");
-                        if (scanner2.nextLine() == "y") {
+                        String answer = scanner2.nextLine();
+                        String ra = "y";
+                        if (answer.equals("y")) {
+                            tasks.get(taskNumber).setStatus(false);
                             tasks.get(taskNumber).finishTask(true);
-                        }
+                            finishedTasks.add(tasks.get(taskNumber));
+                            tasks.remove(taskNumber);
+                        } else System.out.println("Завершение отменено");
                     default:
                         i = 0;
                 }
